@@ -1,8 +1,8 @@
 <template>
   <div class="hello">
-    <AddPlaceDialog></AddPlaceDialog>
-    <div v-for="pi in tdata"> {{ pi.place }} 
+    <AddPlaceDialog @onAddPlace="onAddPlace" @onCloseDialog="onClose('mShowAddPlace')" :mShow="mShowAddPlace"></AddPlaceDialog>
     <button @click="onShowAddPlace">AddPlace</button>
+    <div v-for="pi in tdata"> {{ pi.place }} 
       <button v-for="item in pi.items"> {{ item }} </button>
     </div>
   </div>
@@ -19,7 +19,7 @@ export default {
     return {
       tdata: '',
       isShowLog: false,
-      mShow: false
+      mShowAddPlace: false
     }
   },
   mounted: function () {
@@ -28,10 +28,14 @@ export default {
   },
   methods: {
     onShowAddPlace: function () {
-      this.mShow = true
+      this.mShowAddPlace = true
     },
-    onCloseDialog: function (wShow) {
+    onClose: function (wShow) {
       this[wShow] = false
+    },
+    onAddPlace: function (pname) {
+      var mydate = new Date()
+      this.tdata.push({place: pname, items: ['01'], dates: [mydate.toLocaleString()], unsaved: [true]})
     }
   }
 }
