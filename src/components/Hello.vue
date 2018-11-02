@@ -27,6 +27,12 @@ export default {
     this.tdata = [{place: '01', items: ['01'], dates: [mydate.toLocaleString()], unsaved: [true]}]
   },
   methods: {
+    onShowAddPlace: function () {
+      this.mShow = true
+    },
+    onCloseDialog: function (wShow) {
+      this[wShow] = false
+    }
   }
 }
 </script>
