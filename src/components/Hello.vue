@@ -1,7 +1,6 @@
 <template>
   <div class="hello">
-    <modal @onCloseDialog="closeThis('isShowLog')" :is-show='isShowLog'></modal>
-    <Modal :show='mShow'></Modal>
+    <AddPlaceDialog></AddPlaceDialog>
     <div v-for="pi in tdata"> {{ pi.place }} 
     <button @click="onShowAddPlace">AddPlace</button>
       <button v-for="item in pi.items"> {{ item }} </button>
@@ -10,13 +9,11 @@
 </template>
 
 <script>
-import modal from './dialog'
-import Modal from './Modal'
+import AddPlaceDialog from './AddPlaceDialog'
 export default {
   name: 'hello',
   components: {
-    modal,
-    Modal
+    AddPlaceDialog
   },
   data () {
     return {
@@ -30,16 +27,6 @@ export default {
     this.tdata = [{place: '01', items: ['01'], dates: [mydate.toLocaleString()], unsaved: [true]}]
   },
   methods: {
-    onShowAddPlace: function () {
-      this.mShow = true
-    },
-    onCloseDialog: function () {
-      this.isShowLog = false
-    },
-    closeThis: function (dlg) {
-      console.log(dlg)
-      this.isShowLog = false
-    }
   }
 }
 </script>

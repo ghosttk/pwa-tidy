@@ -18,8 +18,8 @@
         <div class="modal-footer">
           <slot name="footer">
             这是Modal弹框的脚部
-            <button type="button" class="btn-green" @click="close" aria-label="Close modal">关闭</button>
           </slot>
+        <button type="button" class="btn-green" @click="close" aria-label="Close modal">关闭</button>
         </div>
       </div>
     </div>
