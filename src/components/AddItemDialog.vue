@@ -1,8 +1,8 @@
 <template>
     <Modal @close="onClose('mShow')" :show='mShow'>
-      <div slot="header"> AddPlace </div>
+      <div slot="header"> AddItem </div>
       <div slot="body">
-        <input ref="inputPlace" placeholder="place name" @keyup.enter="AddPlace" v-model="placeName" type="text"></input>
+        <input ref="inputItem" itemholder="item name" @keyup.enter="AddItem" v-model="itemName" type="text"></input>
       </div>
       <div slot="footer"> footer</div>
     </Modal>
@@ -13,7 +13,7 @@ export default {
   props: ['mShow'],
   data () {
     return {
-      placeName: ''
+      itemName: ''
     }
   },
   components: {
@@ -23,14 +23,15 @@ export default {
     onClose: function (wShow) {
       this.$emit('onCloseDialog')
     },
-    AddPlace: function () {
-      this.$emit('onAddPlace', this.placeName)
-      this.placeName = ''
+    AddItem: function () {
+      this.$emit('onAddItem', this.itemName)
+      this.itemName = ''
       this.onClose()
     }
   },
   updated: function () {
-    this.$refs.inputPlace.focus()
+    console.log('updated')
+    this.$refs.inputItem.focus()
   }
 }
 </script>
