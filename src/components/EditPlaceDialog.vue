@@ -1,16 +1,16 @@
 <template>
     <Modal @close="onClose('mShow')" :show='mShow'>
-      <div slot="header"> AddPlace </div>
+      <div slot="header"> EditPlace </div>
       <div slot="body">
-        <input ref="inputPlace" placeholder="place name" @keyup.enter="AddPlace" v-model="placeName" type="text"></input>
+        <input ref="inputPlace" :placeholder="placename" @keyup.enter="EditPlace" v-model="placeName" type="text"></input>
       </div>
-      <div slot="footer"><button @click="AddPlace">Ok</button> </div>
+      <div slot="footer"><button @click="EditPlace">Ok</button> </div>
     </Modal>
 </template>
 <script>
 import Modal from './Modal'
 export default {
-  props: ['mShow'],
+  props: ['mShow', 'placename'],
   data () {
     return {
       placeName: ''
@@ -23,8 +23,8 @@ export default {
     onClose: function (wShow) {
       this.$emit('onCloseDialog')
     },
-    AddPlace: function () {
-      this.$emit('onAddPlace', this.placeName)
+    EditPlace: function () {
+      this.$emit('onEditPlace', this.placeName)
       this.placeName = ''
       this.onClose()
     }

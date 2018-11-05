@@ -4,7 +4,7 @@
       <div slot="body">
         <input ref="inputItem" itemholder="item name" @keyup.enter="AddItem" v-model="itemName" type="text"></input>
       </div>
-      <div slot="footer"> footer</div>
+      <div slot="footer"><button @click="AddItem">Ok</button> </div>
     </Modal>
 </template>
 <script>
@@ -30,7 +30,6 @@ export default {
     }
   },
   updated: function () {
-    console.log('updated')
     this.$refs.inputItem.focus()
   }
 }

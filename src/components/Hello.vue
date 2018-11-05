@@ -2,8 +2,10 @@
   <div class="hello">
     <AddPlaceDialog @onAddPlace="onAddPlace" @onCloseDialog="onClose('mShowAddPlace')" :mShow="mShowAddPlace"></AddPlaceDialog>
     <AddItemDialog @onAddItem="onAddItem" @onCloseDialog="onClose('mShowAddItem')" :mShow="mShowAddItem"></AddItemDialog>
+    <EditPlaceDialog @onEditPlace="onEditPlace" @onCloseDialog="onClose('mShowEditPlace')" :mShow="mShowEditPlace" :placename="curPlaceName"></EditPlaceDialog>
     <button @click="onShowAddPlace">AddPlace</button>
-    <div v-for="(pl, pi) in tdata"> {{ pl.place }} 
+    <div v-for="(pl, pi) in tdata"> 
+      <button @click="onShowEditPlace(pl, pi)">{{ pl.place }}</button>
       <button v-for="item in pl.items"> {{ item }} </button>
       <button @click="onShowAddItem(pi)"> AddItem </button>
     </div>
@@ -13,11 +15,13 @@
 <script>
 import AddPlaceDialog from './AddPlaceDialog'
 import AddItemDialog from './AddItemDialog'
+import EditPlaceDialog from './EditPlaceDialog'
 export default {
   name: 'hello',
   components: {
     AddPlaceDialog,
-    AddItemDialog
+    AddItemDialog,
+    EditPlaceDialog
   },
   data () {
     return {
@@ -25,7 +29,9 @@ export default {
       isShowLog: false,
       mShowAddPlace: false,
       mShowAddItem: false,
-      curPlaceIndex: 0
+      curPlaceIndex: 0,
+      curPlaceName: '',
+      mShowEditPlace: false
     }
   },
   mounted: function () {
@@ -33,6 +39,15 @@ export default {
     this.tdata = [{place: '01', items: ['01'], dates: [mydate.toLocaleString()], unsaved: [true]}]
   },
   methods: {
+    onEditPlace (pname) {
+      this.tdata[this.curPlaceIndex].place = pname
+    },
+    onShowEditPlace (pl, pi) {
+      this.curPlaceName = pl.place
+      console.log(pl.place)
+      this.curPlaceIndex = pi
+      this.mShowEditPlace = true
+    },
     onAddItem: function (iname) {
       var mydate = new Date()
       this.tdata[this.curPlaceIndex].items.push(iname)
