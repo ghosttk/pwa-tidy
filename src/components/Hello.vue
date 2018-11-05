@@ -8,9 +8,14 @@
   <!-- Buttons -->
     <button class="btn-primary" @click="onShowAddPlace">AddPlace</button>
     <div v-for="(pl, pi) in tdata"> 
-      <button class="btn-primary" @click="onShowEditPlace(pl, pi)">{{ pl.place }}</button>
-      <button class="btn-primary btn-item" @click="onShowEditItem(pi, item, ii)" v-for="(item, ii)  in pl.items"> {{ item }} </button>
+      <button class="btn-primary" @click="onShowEditPlace(pl, pi)" :style="{ backgroundColor: '#'+pClass[pi%4]+'0'+'0'}">Place:{{ pl.place }}</button>
+        <br>
+        <div v-for="(item, ii)  in pl.items"> 
+        <button class="btn-primary btn-item" @click="onShowEditItem(pi, item, ii)" :style="{ backgroundColor: '#'+pClass[pi]+'0'+pClass[ii], color: '#fff'}"> {{ item }} </button> {{pl.dates[ii]}} <code v-if="pl.unsaved[ii]">unsaved</code>
+        <br>
+        </div>
       <button class="btn-primary" @click="onShowAddItem(pi)"> AddItem </button>
+      <hr>
     </div>
   </div>
 </template>
@@ -39,7 +44,8 @@ export default {
       mShowEditPlace: false,
       mShowEditItem: false,
       curItemIndex: 0,
-      curItemName: ''
+      curItemName: '',
+      pClass: ['3', '6', '9', 'c']
     }
   },
   mounted: function () {
@@ -51,7 +57,7 @@ export default {
       if (iname === '') return
       var mydate = new Date()
       this.tdata[this.curPlaceIndex].items[this.curItemIndex] = iname
-      this.tdata[this.curPlaceIndex].dates[this.curItemIndex] = mydate
+      this.tdata[this.curPlaceIndex].dates[this.curItemIndex] = mydate.toLocaleString()
     },
     onShowEditItem (pi, item, ii) {
       this.curPlaceIndex = pi
@@ -73,7 +79,7 @@ export default {
       if (iname === '') return
       var mydate = new Date()
       this.tdata[this.curPlaceIndex].items.push(iname)
-      this.tdata[this.curPlaceIndex].dates.push(mydate)
+      this.tdata[this.curPlaceIndex].dates.push(mydate.toLocaleString())
       this.tdata[this.curPlaceIndex].unsaved.push(true)
     },
     onShowAddItem: function (pplace) {
@@ -118,12 +124,14 @@ a {
     background-color: #008CBA; /* Blue */
     color: white;
     text-align: center;
+    padding: 0.2em 0.5em 0.2em 0.5em;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
-    border-radius: 2px;
+    font-size: 2em;
+    border-radius: 0.3em;
 }
 .btn-item{
-   display: block;
+   margin-left: 1em;
+   background-color: #ff8CBA; /* Blue */
 }
 </style>
