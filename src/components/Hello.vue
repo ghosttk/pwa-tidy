@@ -1,13 +1,16 @@
 <template>
   <div class="hello">
+  <!-- Dialogs -->
     <AddPlaceDialog @onAddPlace="onAddPlace" @onCloseDialog="onClose('mShowAddPlace')" :mShow="mShowAddPlace"></AddPlaceDialog>
     <AddItemDialog @onAddItem="onAddItem" @onCloseDialog="onClose('mShowAddItem')" :mShow="mShowAddItem"></AddItemDialog>
     <EditPlaceDialog @onEditPlace="onEditPlace" @onCloseDialog="onClose('mShowEditPlace')" :mShow="mShowEditPlace" :placename="curPlaceName"></EditPlaceDialog>
-    <button @click="onShowAddPlace">AddPlace</button>
+    <EditItemDialog @onEditItem="onEditItem" @onCloseDialog="onClose('mShowEditItem')" :mShow="mShowEditItem" :itemname="curItemName"></EditItemDialog>
+  <!-- Buttons -->
+    <button class="btn-primary" @click="onShowAddPlace">AddPlace</button>
     <div v-for="(pl, pi) in tdata"> 
-      <button @click="onShowEditPlace(pl, pi)">{{ pl.place }}</button>
-      <button v-for="item in pl.items"> {{ item }} </button>
-      <button @click="onShowAddItem(pi)"> AddItem </button>
+      <button class="btn-primary" @click="onShowEditPlace(pl, pi)">{{ pl.place }}</button>
+      <button class="btn-primary btn-item" @click="onShowEditItem(pi, item, ii)" v-for="(item, ii)  in pl.items"> {{ item }} </button>
+      <button class="btn-primary" @click="onShowAddItem(pi)"> AddItem </button>
     </div>
   </div>
 </template>
@@ -16,12 +19,14 @@
 import AddPlaceDialog from './AddPlaceDialog'
 import AddItemDialog from './AddItemDialog'
 import EditPlaceDialog from './EditPlaceDialog'
+import EditItemDialog from './EditItemDialog'
 export default {
   name: 'hello',
   components: {
     AddPlaceDialog,
     AddItemDialog,
-    EditPlaceDialog
+    EditPlaceDialog,
+    EditItemDialog
   },
   data () {
     return {
@@ -31,7 +36,10 @@ export default {
       mShowAddItem: false,
       curPlaceIndex: 0,
       curPlaceName: '',
-      mShowEditPlace: false
+      mShowEditPlace: false,
+      mShowEditItem: false,
+      curItemIndex: 0,
+      curItemName: ''
     }
   },
   mounted: function () {
@@ -39,7 +47,20 @@ export default {
     this.tdata = [{place: '01', items: ['01'], dates: [mydate.toLocaleString()], unsaved: [true]}]
   },
   methods: {
+    onEditItem (iname) {
+      if (iname === '') return
+      var mydate = new Date()
+      this.tdata[this.curPlaceIndex].items[this.curItemIndex] = iname
+      this.tdata[this.curPlaceIndex].dates[this.curItemIndex] = mydate
+    },
+    onShowEditItem (pi, item, ii) {
+      this.curPlaceIndex = pi
+      this.curItemIndex = ii
+      this.curItemName = item
+      this.mShowEditItem = true
+    },
     onEditPlace (pname) {
+      if (pname === '') return
       this.tdata[this.curPlaceIndex].place = pname
     },
     onShowEditPlace (pl, pi) {
@@ -49,6 +70,7 @@ export default {
       this.mShowEditPlace = true
     },
     onAddItem: function (iname) {
+      if (iname === '') return
       var mydate = new Date()
       this.tdata[this.curPlaceIndex].items.push(iname)
       this.tdata[this.curPlaceIndex].dates.push(mydate)
@@ -65,8 +87,9 @@ export default {
       this[wShow] = false
     },
     onAddPlace: function (pname) {
+      if (pname === '') return
       var mydate = new Date()
-      this.tdata.push({place: pname, items: ['01'], dates: [mydate.toLocaleString()], unsaved: [true]})
+      this.tdata.push({place: pname, items: [], dates: [mydate.toLocaleString()], unsaved: [true]})
     }
   }
 }
@@ -90,5 +113,17 @@ li {
 
 a {
   color: #35495E;
+}
+.btn-primary {
+    background-color: #008CBA; /* Blue */
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 2px;
+}
+.btn-item{
+   display: block;
 }
 </style>

@@ -2,7 +2,7 @@
     <Modal @close="onClose('mShow')" :show='mShow'>
       <div slot="header"> EditPlace </div>
       <div slot="body">
-        <input ref="inputPlace" :placeholder="placename" @keyup.enter="EditPlace" v-model="placeName" type="text"></input>
+        <input ref="inputPlace" required :placeholder="placename" @keyup.enter="EditPlace" v-model.lazy="placeName" type="text"></input>
       </div>
       <div slot="footer"><button @click="EditPlace">Ok</button> </div>
     </Modal>
@@ -13,7 +13,7 @@ export default {
   props: ['mShow', 'placename'],
   data () {
     return {
-      placeName: ''
+      placeName: this.placename
     }
   },
   components: {
